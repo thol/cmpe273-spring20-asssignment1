@@ -9,10 +9,13 @@ MESSAGE = "ping"
 def send(id=0):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((TCP_IP, TCP_PORT))
-    s.send(f"{id}:{MESSAGE}".encode())
-    data = s.recv(BUFFER_SIZE)
+    data = bytes(f"{id}:{MESSAGE}", "utf-8")
+    s.sendall(data)
+    
+    
+    received = str(s.recv(BUFFER_SIZE),"utf-8")
     s.close()
-    print("received data:", data.decode())
+    print("received data:", received)
 
 
 def get_client_id():
